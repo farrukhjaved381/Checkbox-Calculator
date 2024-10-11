@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Checkbox Calculator</title>
+    <style>
+  
+    form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center;">Checkbox Calculator</h1>
+    <form name="calculator" id="calculator" method="post" action="save.php">
+      <div>
+        <input type="checkbox" name="c9" id="c9" value="9" />9
+        <input type="checkbox" name="c8" id="c8" value="8" />8
+        <input type="checkbox" name="c7" id="c7" value="7" />7
+      </div>
+      <div>
+        <input type="checkbox" name="c6" id="c6" value="6" />6
+        <input type="checkbox" name="c5" id="c5" value="5" />5
+        <input type="checkbox" name="c4" id="c4" value="4" />4
+      </div>
+      <div>
+        <input type="checkbox" name="c3" id="c3" value="3" />3
+        <input type="checkbox" name="c2" id="c2" value="2" />2
+        <input type="checkbox" name="c1" id="c1" value="1" />1
+      </div>
+
+      <button type="button" class="operator" value="+">+</button>
+      <button type="button" class="operator" value="-">-</button>
+      <button type="button" class="operator" value="*">*</button>
+      <button type="button" class="operator" value="/">/</button>
+
+      <input type="text" name="t1" id="t1" readonly />
+      <button type="button" name="result" id="result">Result</button>
+      <input type="button" name="clear" id="clear" value="Clear" />
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        $("#result").click(function () {
+          var operator = $(".operator.active").val();
+          var result;
+
+          $(":checkbox:checked").each(function (index) {
+            var number = parseInt($(this).val(), 10);
+
+            if (index === 0) {
+              result = number;
+            } else {
+              if (operator === "+") {
+                result += number;
+              } else if (operator === "-") {
+                result -= number;
+              } else if (operator === "*") {
+                result *= number;
+              } else if (operator === "/" && number !== 0) {
+                result /= number;
+              }
+            }
+          });
+
+          $("#t1").val(result || 0);
+        });
+
+        $(".operator").click(function () {
+          $(".operator").removeClass("active");
+          $(this).addClass("active");
+        });
+
+        $("#clear").click(function () {
+          $(":checkbox:checked").prop("checked", false);
+          $("#t1").val("");
+        });
+      });
+    </script>
+  </body>
+</html>
